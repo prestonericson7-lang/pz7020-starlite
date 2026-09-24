@@ -29,6 +29,25 @@ Part 3.18 of the User Manual).
   | 33, 34, 35, 36 | **GND** |
 - **Power direction:** the 5 V pins can either take 5 V *in* (using the board as a module) or supply 5 V *out* when the board is powered from Type-C. ✅ DOC (Manual Part 3.1)
 
+📄 **Printable sheet:** [PZ7020-StarLite-pinout-sheet.pdf](PZ7020-StarLite-pinout-sheet.pdf) — 4 pages: physical layout with every pin numbered, JM1 and JM2 per-pin sheets, and the power notes below.
+
+### How the 5 V pin is actually wired ✅ DOC (schematic sheets 2, 9, 18, 19)
+
+- **JM1 pin 1, JM2 pin 1, and the JTAG/power Type-C VBUS pins are the same net, `VDD_5V`**, which feeds the four MP2143 buck converters directly.
+- **There is no diode, ideal-diode, load switch, or fuse between any of them.** The only diodes on the board are two 1N4148 signal diodes, three UBQ10A05 ESD arrays, and LEDs.
+- Therefore the header 5 V pin is **both input and output** — it *is* the rail. Board powered by Type-C → 5 V comes out on pin 1 (that's what runs the fan). 5 V into pin 1 → the whole board runs.
+- ⛔ **Never connect two 5 V sources at once** (e.g. the JTAG Type-C into a PC *and* an external 5 V on pin 1). They are hard-paralleled; the higher one back-drives the other. This is the manual's "select one of the two power methods."
+- ✅ **The UART Type-C is always safe to leave connected**: its VBUS goes only to `VDD_USB2UART_5V` (powers the CH340E, sheet 9) and does not touch `VDD_5V`. That's also why it never lights the power LED.
+- **Pin 2 (3.3 V) is a regulator output** (U4 → `VDD_3V3`). Never feed 3.3 V into it; spare capacity is unspecified — treat as tens of mA.
+
+### Powering the board from another SBC's 5 V (e.g. Orange Pi 4 Pro)
+
+Electrically possible (OPi 5 V → JM pin 1, OPi GND → JM GND), but: the Orange Pi 4 Pro ships with a **5 V/3 A** supply that the OPi itself can mostly consume under load, the FPGA needs up to **1 A**, and the OPi header's 5 V current capacity is ⚠️ undocumented here. While the OPi feeds the FPGA, the FPGA's JTAG Type-C **must not** be plugged into a PC (second hard-tied source) — programming would need a VBUS-cut cable. **Recommended:** power each board from its own supply and share **only ground + signals**; if one supply must serve both, use a single ≥5 A 5 V supply wired in a star, not through the OPi's header.
+
+### Which physical header is JM1? ⚠️ not yet determined
+
+No document states it and the board has no labels. Irrelevant for power (identical pins); it matters for I/O. Planned test **P-11**: drive one JM1 ball (e.g. `H16`) high from a bitstream and probe pin 5 of each header.
+
 ---
 
 ## JM1 — all BANK35

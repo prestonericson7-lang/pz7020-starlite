@@ -57,7 +57,8 @@ projected, estimated, or "typical" numbers anywhere.
 | Document | What's in it |
 |----------|--------------|
 | **[docs/getting-started.md](docs/getting-started.md)** | The two USB-C ports (which one powers it), boot-mode jumper, the zero-risk "is it alive" test, why the serial console can be silent, toolchain. |
-| **[docs/pinout.md](docs/pinout.md)** | Complete **JM1 / JM2 pinout** — every pin, signal name, FPGA ball, bank, and the 5 V / 3.3 V / GND positions. |
+| **[docs/pinout.md](docs/pinout.md)** | Complete **JM1 / JM2 pinout** — every pin, signal name, FPGA ball, bank, the 5 V / 3.3 V / GND positions, and how the 5 V rail is really wired. |
+| **[docs/PZ7020-StarLite-pinout-sheet.pdf](docs/PZ7020-StarLite-pinout-sheet.pdf)** | **Printable 4-page pinout sheet** — physical layout with every pin numbered, per-header sheets, power do's and don'ts. |
 | **[docs/measurements.md](docs/measurements.md)** | Every observation we've made on real hardware, with method. The only place numbers live. |
 | **[docs/fan-control.md](docs/fan-control.md)** | Wiring and driving a fan from the PL — exact pins, XDC, and the safety rule. |
 

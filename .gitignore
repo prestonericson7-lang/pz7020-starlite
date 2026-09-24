@@ -1,0 +1,43 @@
+# ---- Vivado / Vitis generated output ----
+*.jou
+*.log
+*.str
+*.backup.*
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.gen/
+*.sdk/
+*.hbs
+vivado_pid*.str
+webtalk*.jou
+webtalk*.log
+
+# Bitstreams and hardware handoff files (build artifacts, not sources)
+*.bit
+*.bin
+*.ltx
+*.xsa
+*.hdf
+
+# ---- Vendor bundles (copyrighted, not redistributed -- see README) ----
+# Keep the vendor's manual, schematic, datasheets and demo archives out of git.
+*.rar
+01.Datasheet/
+02.Software*/
+03.Boot*/
+04.Hardware/
+05.Course_Demos/
+*User Manual*.pdf
+*Schematic*.pdf
+
+# ---- OS / editor noise ----
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+.vscode/
+.idea/

@@ -19,10 +19,13 @@ method, it doesn't exist.
 - **Raw result:**
   - A new port appeared: `USB-SERIAL CH340 (COM31)`, device ID `USB\VID_1A86&PID_7523`.
   - Query for any `VID_0403` (FTDI) device: **no results**.
-- **Interpretation:** The bridge is a **WCH CH340** (`VID_1A86` = WCH), consistent with
-  the manual's statement that a **CH340E** is used. **There is no FTDI/FT2232 on this
-  board** — searching for an FTDI port is a dead end.
-- **Tags:** 🔬 MEASURED, ❌ DISPROVEN (FTDI assumption)
+- **Interpretation:** The console bridge is a **WCH CH340** (`VID_1A86` = WCH), consistent
+  with the manual's statement that a **CH340E** is used — the console is **not** an FTDI port.
+- **Correction (2026-09-24):** an earlier version of this entry said the board has no FTDI
+  chip. That was wrong. The board carries an **FTDI FT232HL** (U17, schematic sheet 19) as its
+  USB-JTAG programmer on the `JTAG` port; it did not enumerate here because only the `UART`
+  port was connected to the host. It does not carry the console.
+- **Tags:** 🔬 MEASURED, ❌ DISPROVEN (FTDI *console* assumption)
 
 ---
 
@@ -108,7 +111,7 @@ exist for this board in this repository yet.**
 | P-08 | Max reliable fabric clock (timing closure) from the 50 MHz input via MMCM | P-02 |
 | P-09 | Power draw at idle and under fabric load (vs the 5 V/1 A rating) | Current meter inline |
 | P-10 | Thermal behaviour under sustained load, with and without the fan | P-03, P-09 |
-| P-11 | Identify which physical header (bottom edge / top edge) is JM1 vs JM2 — drive `H16` high from a bitstream, probe pin 5 on each header | P-02 |
+| P-11 | Electrically confirm header identity (top = JM1 per the manual's board photo, p. 10) — drive `H16` high from a bitstream, probe pin 5 on each header | P-02 |
 | P-12 | Confirm 5 V rail voltage at JM pin 1 under the board's own load, and with a fan attached (droop check against the 5 V/1 A rating) | Meter |
 
 ---

@@ -11,10 +11,12 @@ The board has two Type-C connectors and they are **not** interchangeable:
 
 | Port | Role | Power LED |
 |------|------|-----------|
-| **Power + JTAG** | Supplies 5 V to the board **and** is the programming/debug link | **Lights up** |
-| **UART** | Serial console only (CH340E). Does **not** power the board | Stays off |
+| **Power + JTAG** — upper port, silkscreen `JTAG` (J8) | Supplies 5 V to the board **and** is the programming/debug link (FTDI FT232HL) | **Lights up** |
+| **UART** — lower port, silkscreen `UART` (J2) | Serial console only (CH340E). Does **not** power the board | Stays off |
 
-**How to identify them on your board without documentation:** plug a cable into one
+✅ DOC: the manual's board photo (p. 10) labels them — **upper port `JTAG` (J8), lower port `UART` (J2)**, with the board oriented USB-C on the left.
+
+**If the silkscreen on your unit is unreadable:** plug a cable into one
 port at a time. The one that makes the **power LED light** is the power + JTAG port.
 The other is the UART.
 
@@ -32,7 +34,7 @@ or JM2) when using it as a module. ✅ DOC
 
 ## 2. Boot mode jumper ✅ DOC
 
-Three boot modes, selected by a jumper cap:
+Three boot modes, selected by one jumper cap. **Location:** top-right corner of the board, beside the USB-A port — three pin-pairs silkscreened `JTAG · QSPI · SD`; the cap on a pair selects that mode (✅ DOC, manual p. 11 photo, which shows the cap on the right-hand `SD` pair):
 
 | Mode | What happens |
 |------|--------------|
@@ -70,7 +72,7 @@ This is the single most confusing thing about the board, and it is **not** a fau
 
 **Facts:**
 - The USB-UART chip is a **CH340E** ✅ DOC — it enumerates as a **WCH CH340** serial port (USB `VID_1A86`, `PID_7523`). 🔬 MEASURED
-- **There is no FTDI device.** If you're looking for an FT2232/FTDI COM port, you will not find one. ❌ DISPROVEN (common assumption for this board class)
+- **The console is not an FTDI port.** The board's FTDI chip (FT232HL, U17 — schematic sheet 19) is the **JTAG programmer** behind the `JTAG` port; it provides no serial console. Looking for an FTDI COM port to read the console is a dead end. ❌ DISPROVEN (common assumption for this board class)
 - The UART's TX/RX are wired to the **PS side**: `UART_TX = MIO11` (ball C6), `UART_RX = MIO10` (ball E9), 3.3 V. ✅ DOC
 
 **Consequence:** the UART only carries data when **the PS is executing code that prints
@@ -94,9 +96,11 @@ deasserted means simply listening cannot perturb the board.
 
 ## 5. Toolchain ✅ DOC
 
-- **AMD/Xilinx Vivado** is required. Zynq-7000 is **not** supported by the open-source
-  yosys/nextpnr flow (those target iCE40/ECP5), so there is no fully open bitstream
-  path for this board today.
+- **AMD/Xilinx Vivado** is the official toolchain (download needs an AMD account).
+- **Open alternative for the fabric:** openXC7 — yosys + nextpnr-xilinx + the Project X-Ray
+  database — supports `xc7z020clg400-2`. Bitstreams for this board have been built with it;
+  ⚠️ none has been run on hardware yet, so treat it as unverified until the measurement log
+  says otherwise.
 - Device part for a new project: **`xc7z020clg400-2`** (manual states XC7Z020-2CLG400I).
   ⚠️ Verify against your chip's marking.
 - The board has an **onboard USB-JTAG programmer** ✅ DOC — no external programmer

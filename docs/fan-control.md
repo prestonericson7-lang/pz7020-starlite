@@ -46,7 +46,8 @@ jacks on your right** and the **two USB-C ports on your left**:
 - Pin numbering runs from the square pad along the header; **pin 3 is the next hole in the same
   row as pin 1**, and **pin 2 is the hole directly across** from pin 1 in the other row.
 - Both headers have the same power pins (1 = 5 V, 2 = 3.3 V, 3/4 = GND), so **either header
-  works for fan power**. Which one is JM1 vs JM2 only matters for the PWM/tach signal pins.
+  works for fan power**. For the PWM/tach signals: **JM1 is the top-edge header** (silkscreen in
+  the manual's board photo, p. 10), so use pins 5 and 7 of the **top** header.
 
 **Simplest possible fan hookup (2-wire fan):** red → the square pad (5 V), black → the hole
 right beside it in the same row (pin 3, GND). Never the hole across from the square pad —
@@ -54,7 +55,7 @@ that is 3.3 V. Power the board and the fan spins immediately.
 
 ## Wiring — 4-wire fan
 
-All four connections, on **JM1** (entirely BANK35, default 3.3 V):
+All four connections, on **JM1 — the top-edge header** (entirely BANK35, default 3.3 V):
 
 | Fan wire | JM1 pin | FPGA ball | Notes |
 |----------|:-------:|:---------:|-------|

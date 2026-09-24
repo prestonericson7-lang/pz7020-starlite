@@ -44,13 +44,13 @@ Part 3.18 of the User Manual).
 
 Electrically possible (OPi 5 V → JM pin 1, OPi GND → JM GND), but: the Orange Pi 4 Pro ships with a **5 V/3 A** supply that the OPi itself can mostly consume under load, the FPGA needs up to **1 A**, and the OPi header's 5 V current capacity is ⚠️ undocumented here. While the OPi feeds the FPGA, the FPGA's JTAG Type-C **must not** be plugged into a PC (second hard-tied source) — programming would need a VBUS-cut cable. **Recommended:** power each board from its own supply and share **only ground + signals**; if one supply must serve both, use a single ≥5 A 5 V supply wired in a star, not through the OPi's header.
 
-### Which physical header is JM1? ⚠️ not yet determined
+### Which physical header is JM1? ✅ DOC
 
-No document states it and the board has no labels. Irrelevant for power (identical pins); it matters for I/O. Planned test **P-11**: drive one JM1 ball (e.g. `H16`) high from a bitstream and probe pin 5 of each header.
+The User Manual's board photo (p. 10) shows the silkscreen: **`JM1` under the top-edge header** (printed upside-down) and **`JM2` above the bottom-edge header**, with the pin-1 pads boxed in red exactly where the PCB drawing puts them (JM1: left end, inner row; JM2: right end, inner row). With the board oriented Ethernet jacks right / USB-C left: **top header = JM1, bottom header = JM2.** If your unit's silkscreen is unreadable, the planned probe test **P-11** (drive `H16` high from a bitstream, probe pin 5 of each header) confirms it electrically.
 
 ---
 
-## JM1 — all BANK35
+## JM1 — top-edge header, all BANK35
 
 | Pin | Signal | Ball | | Pin | Signal | Ball |
 |:---:|:-------|:----:|-|:---:|:-------|:----:|
@@ -79,7 +79,7 @@ No document states it and the board has no labels. Irrelevant for power (identic
 
 ---
 
-## JM2 — BANK35 (pins 5–20) + BANK34 (pins 21–40)
+## JM2 — bottom-edge header, BANK35 (pins 5–20) + BANK34 (pins 21–40)
 
 | Pin | Signal | Ball | Bank | | Pin | Signal | Ball | Bank |
 |:---:|:-------|:----:|:----:|-|:---:|:-------|:----:|:----:|

@@ -30,6 +30,28 @@ A **2- or 3-wire** fan has no internal switch, so you must add one — see
 
 ---
 
+## Where the pins physically are (no silkscreen needed)
+
+The board has **no header labels**, so here is the layout taken directly from the vendor's PCB
+drawing (`PZ-STARLITE-PCB-V1_1_TOP.dxf`). Hold the board chip-side up with the **two Ethernet
+jacks on your right** and the **two USB-C ports on your left**:
+
+![PZ7020-StarLite top view with fan power holes marked](board-layout.svg)
+
+- One 2×20 header runs along the **bottom** edge, another along the **top** edge.
+- **Pin 1 is always the square pad** (every other hole is round) — etched in copper, so it works
+  without any silkscreen.
+  - **Bottom header:** square pad at the **right** end, in the row **farther from the board edge**.
+  - **Top header:** square pad at the **left** end, in the row **farther from the board edge**.
+- Pin numbering runs from the square pad along the header; **pin 3 is the next hole in the same
+  row as pin 1**, and **pin 2 is the hole directly across** from pin 1 in the other row.
+- Both headers have the same power pins (1 = 5 V, 2 = 3.3 V, 3/4 = GND), so **either header
+  works for fan power**. Which one is JM1 vs JM2 only matters for the PWM/tach signal pins.
+
+**Simplest possible fan hookup (2-wire fan):** red → the square pad (5 V), black → the hole
+right beside it in the same row (pin 3, GND). Never the hole across from the square pad —
+that is 3.3 V. Power the board and the fan spins immediately.
+
 ## Wiring — 4-wire fan
 
 All four connections, on **JM1** (entirely BANK35, default 3.3 V):

@@ -108,6 +108,8 @@ exist for this board in this repository yet.**
 | P-08 | Max reliable fabric clock (timing closure) from the 50 MHz input via MMCM | P-02 |
 | P-09 | Power draw at idle and under fabric load (vs the 5 V/1 A rating) | Current meter inline |
 | P-10 | Thermal behaviour under sustained load, with and without the fan | P-03, P-09 |
+| P-11 | Identify which physical header (bottom edge / top edge) is JM1 vs JM2 — drive `H16` high from a bitstream, probe pin 5 on each header | P-02 |
+| P-12 | Confirm 5 V rail voltage at JM pin 1 under the board's own load, and with a fan attached (droop check against the 5 V/1 A rating) | Meter |
 
 ---
 

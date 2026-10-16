@@ -35,7 +35,7 @@ projected, estimated, or "typical" numbers anywhere.
 |------|-------|
 | SoC | Xilinx **Zynq XC7Z020-CLG400** — dual Cortex-A9 (PS) @ 766 MHz + Artix-7 fabric (PL) |
 | PL fabric | 85K logic cells, 53,200 LUT, 106,400 FF, **220 DSP48**, ~4.9 Mb BRAM |
-| DDR3 | Micron **MT41K256M16TW-107** (4 Gb ×16 = 512 MB per chip, DDR3-1866). ⚠️ **The vendor docs conflict on capacity:** the manual's spec table says 1 GB for the 7020, but schematic V1.0 routes **one** ×16 chip on a **16-bit** bus (U9) and the manual's own board photo shows one DRAM package — i.e. **512 MB**. The public working build for this board ([Hiroto-Nakano/PZ7020StarLite](https://github.com/Hiroto-Nakano/PZ7020StarLite), MIT) configures the PS as `16 Bit`, `DDR 3 (Low Voltage)`, top address `0x1FFFFFFF` (= 512 MB). Count the DRAM packages on your unit to confirm. |
+| DDR3 | Micron **MT41K256M16TW-107** (4 Gb ×16 = 512 MB per chip, DDR3-1866). ⚠️ **The vendor docs conflict on capacity:** the manual's spec table says 1 GB for the 7020, but schematic V1.0 routes **one** ×16 chip on a **16-bit** bus (U9) and the manual's own board photo shows one DRAM package — i.e. **512 MB**. The public working build for this board ([Hiroto-Nakano/PZ7020StarLite](https://github.com/Hiroto-Nakano/PZ7020StarLite), MIT) configures the PS as `16 Bit`, `DDR 3 (Low Voltage)`, top address `0x1FFFFFFF` (= 512 MB). 🔬 **MEASURED on our unit:** the 16-bit / 512 MB configuration boots ([M-005](docs/measurements.md), [M-007](docs/measurements.md)); a 32-bit / 1 GB configuration gives a completely silent board ([M-006](docs/measurements.md)). |
 | Flash / EEPROM | 128 Mb QSPI (W25Q128JV), 64 Kbit I²C EEPROM (AT24C64D) |
 | Storage | microSD slot (signals on BANK501, 1.8 V, level-shifted to 3.3 V) |
 | Clocks | PS 33.333 MHz (`PS_REF_CLK`); **PL 50 MHz single-ended on ball `U18`** (IO_12P_MRCC_34) |
@@ -46,7 +46,7 @@ projected, estimated, or "typical" numbers anywhere.
 | Serial / JTAG | Console: **CH340E** on port `UART` (J2) → PS `MIO11` (TX) / `MIO10` (RX), 3.3 V. Programmer: **FTDI FT232HL** on port `JTAG` (J8) |
 | Power | 5 V / 1 A, via Type-C **or** the 40-pin header 5 V pins |
 | Board | 90 × 60 mm, 4× 3.5 mm mounting holes |
-| Toolchain | **AMD/Xilinx Vivado** (official). Open alternative for the fabric: **openXC7** (yosys + nextpnr-xilinx + Project X-Ray), which supports `xc7z020clg400-2` — ⚠️ open-flow bitstreams for this board have been built but not yet run on hardware. |
+| Toolchain | **AMD/Xilinx Vivado** (official). Open alternative for the fabric: **openXC7** (yosys + nextpnr-xilinx + Project X-Ray), which supports `xc7z020clg400-2` — ⚠️ open-flow bitstreams for this board have been built but not yet run on hardware. 🔬 A **Vivado** bitstream has run: loaded from the SD card by U-Boot, it showed its HDMI test picture ([M-007](docs/measurements.md)). |
 
 *Source: Puzhi PZ7010-StarLite/PZ7020-StarLite User Manual; `CON Pins Signal and Equal Length.xlsx`; component datasheets. See [Official sources](#official-sources).*
 
@@ -82,6 +82,10 @@ These are the things that cost time to work out. ❌ **DISPROVEN** / 🔬 **MEAS
    The manual lists them as *"optional solder"* — you may need to solder the 2×20 connectors yourself before any expansion wiring.
 6. **JM1 is the top-edge header, JM2 the bottom.** ✅ DOC
    With the board oriented Ethernet jacks right / USB-C left, the silkscreen in the User Manual's board photo (p. 10) reads `JM1` under the top header (printed upside-down) and `JM2` above the bottom one. Pin 1 is the square pad in the inner row — left end on JM1, right end on JM2.
+7. **The 7020 board is 512 MB, not the 1 GB in the specification table.** ✅ DOC + 🔬 MEASURED + ❌ DISPROVEN
+   The schematic routes one ×16 chip with address lines `A0–A14`; the 16-bit / 512 MB configuration boots, and a 32-bit / 1 GB one does not ([M-005 – M-007](docs/measurements.md)).
+8. **A completely silent console can also be a DDR setting.** 🔬 MEASURED
+   U-Boot's SPL keeps its stack and heap in DDR and prints nothing until DDR works. With a DDR configuration that does not fit the board, there is not even an SPL banner ([M-006](docs/measurements.md)) — so zero bytes points at the boot mode, the card, `ps7_init` or DDR, and an SPL banner proves DDR works.
 
 ---
 
@@ -94,8 +98,8 @@ These are the things that cost time to work out. ❌ **DISPROVEN** / 🔬 **MEAS
 | Boot modes, console, port identification | ✅ documented + 🔬 partially measured |
 | Fan control (pins, XDC, HDL) | ✅ designed, ⚠️ not yet run on hardware |
 | Power-on / QSPI LED self-test | ⚠️ not yet performed |
-| Bitstream → program the board | ⚠️ bitstreams built (openXC7); nothing programmed onto hardware yet |
-| PS boot from SD (Linux console) | ⚠️ not yet performed |
+| Bitstream → program the board | 🔬 a Vivado bitstream loaded from SD by U-Boot ran (HDMI test picture, M-007); ⚠️ openXC7 bitstreams and JTAG programming not yet tried on hardware |
+| PS boot from SD (Linux console) | 🔬 to the kernel with a console capture (M-005); to systemd, read back from the card (M-007); ⚠️ the board stopped after that — cause not yet measured |
 | Benchmarks (fabric, DDR3, ethernet, DSP) | ⚠️ **none measured yet** — nothing will be published until it is |
 
 This is an early, honest state. It will fill in as hardware work is done, and the

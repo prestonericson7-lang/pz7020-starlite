@@ -6,7 +6,7 @@
 
 By **Preston Ericson**, with **Mira (Claude)**.
 
-**Related:** [freq-lab](https://github.com/prestonericson7-lang/freq-lab) · [esp32](https://github.com/prestonericson7-lang/esp32) · [all our work](https://github.com/prestonericson7-lang)
+**Related:** [freq-lab](https://github.com/prestonericson7-lang/freq-lab) · [kei-and-tomo](https://github.com/prestonericson7-lang/kei-and-tomo) · [all our work](https://github.com/prestonericson7-lang)
 
 ---
 

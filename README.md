@@ -1,5 +1,15 @@
 # PZ7020-StarLite — open hardware reference
 
+[![YouTube channel](https://img.shields.io/badge/YouTube-%40LittlebrainsBigmess-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/@LittlebrainsBigmess) [![ORCID](https://img.shields.io/badge/ORCID-0009--0009--9123--2731-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0009-9123-2731)
+
+**The missing manual for the Puzhi PZ7020-StarLite Zynq board: full pinout, boot behaviour and working HDL, measured on real hardware.**
+
+By **Preston Ericson**, with **Mira (Claude)**.
+
+**Related:** [freq-lab](https://github.com/prestonericson7-lang/freq-lab) · [esp32](https://github.com/prestonericson7-lang/esp32) · [all our work](https://github.com/prestonericson7-lang)
+
+---
+
 Independent, open documentation for the **Puzhi PZ7020-StarLite** (and its sibling
 **PZ7010-StarLite**) — a low-cost Xilinx **Zynq-7000** development board for which
 almost no public technical information exists.

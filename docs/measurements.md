@@ -83,7 +83,7 @@ says 1 GB DDR3; the board runs as **512 MB DDR3L on a 16-bit bus** (M-005 – M-
 - **Question:** The vendor's course demos are distributed as `.rar`. Is a third-party
   extractor required?
 - **Method:** No 7-Zip or WinRAR installed (verified by checking the standard install
-  paths). Ran Windows' built-in `C:\Windows\System32\tar.exe -tf <archive>.rar`
+  paths). Ran Windows' built-in `tar.exe -tf <archive>.rar`
   (libarchive-based) to list contents without extracting.
 - **Raw result:** Listing succeeded; archive contents enumerated normally
   (Vitis HLS project trees). Archive size: **763,630,791 bytes** (~728 MiB) for
